@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": false,
+  "eslint.validate": [
+    "javascript",
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "liveServer.settings.root": "/build",
+  "liveServer.settings.NoBrowser": true,
+  "liveServer.settings.port": 5501
+}
+
+

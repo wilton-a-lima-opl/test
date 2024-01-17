@@ -1,0 +1,6 @@
+{
+  "name": "Trailight",
+  "identifier": "com.domain.app.Trailight",
+  "version": "1.0.0",
+  "icon": "./static/icon.png"
+}

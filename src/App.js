@@ -1,6 +1,7 @@
 import { Router, Utils } from '@lightningjs/sdk'
-import Menu from './widgets/menu/Menu'
+
 import Loading from './widgets/loading/Loading'
+import Menu from './widgets/menu/Menu'
 import routes from './lib/routes'
 
 export default class App extends Router.App {
@@ -22,10 +23,6 @@ export default class App extends Router.App {
         },
       },
     }
-  }
-
-  _build() {
-    this._menuTag = this.tag('Menu')
   }
 
   _setup() {

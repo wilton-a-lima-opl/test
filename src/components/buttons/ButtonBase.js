@@ -77,11 +77,6 @@ export default class ButtonBase extends Lightning.Component {
     })
   }
 
-  _handleEnter() {
-    this.signal('click')
-    return false
-  }
-
   set radius(v) {
     this._radius = v
   }
@@ -107,14 +102,6 @@ export default class ButtonBase extends Lightning.Component {
 
   get buttonBaseText() {
     return this._buttonBaseText || ''
-  }
-
-  set resize(data) {
-    this._resize = data
-  }
-
-  get resize() {
-    return this._resize
   }
 
   set focusColor(focusColor) {

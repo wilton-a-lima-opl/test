@@ -1,6 +1,6 @@
 import Lightning from '@lightningjs/sdk/src/Lightning'
-import loadingTheme from './LoadingTheme'
 import { Router } from '@lightningjs/sdk'
+import loadingTheme from './LoadingTheme'
 
 export default class extends Lightning.Component {
   static _template() {
@@ -43,31 +43,19 @@ export default class extends Lightning.Component {
   }
 
   open(mode = 'fullscreen', focusLoading = true) {
-    if (this._spinnerTag.visible === false) {
-      switch (mode) {
-        case 'fullscreen':
-          this.patch({
-            Bg: {
-              visible: true,
-            },
-            Spinner: {
-              visible: true,
-            },
-          })
-          break
-        case 'spinner':
-          this.patch({
-            Bg: {
-              visible: false,
-            },
-            Spinner: {
-              visible: true,
-            },
-          })
-          break
-      }
+    if (!this._spinnerTag.visible && mode === 'fullscreen') {
+      this.patch({
+        Bg: {
+          visible: true,
+        },
+        Spinner: {
+          visible: true,
+        },
+      })
 
-      focusLoading && Router.focusWidget('loading')
+      if (focusLoading) {
+        Router.focusWidget('loading')
+      }
     }
   }
 

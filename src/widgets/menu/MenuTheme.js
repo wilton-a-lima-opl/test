@@ -1,35 +1,21 @@
 export default {
   w: 1920,
   h: 120,
-  wrapper: {
-    y: 32,
-    paddingRight: 64,
-    defaultMenuItem: {
-      marginLeft: 112,
-      iconPaddingRight: 48,
+  button: {
+    w: 600,
+    h: 100,
+    y: 110,
+    xFirst: 300,
+    xSecond: 950,
+    borderRadius: 8,
+    focusColor: 0xffc2cbd1,
+    unfocusColor: 0xff282828,
+    focusTextColor: 0xff282828,
+    unfocusTextColor: 0xfff2f2f2,
+    buttonBaseText: {
+      fontSize: 50,
+      textFirstButton: 'Page 1',
+      textSecondButton: 'Page 2',
     },
-    profileMenuItem: {
-      w: 56,
-      h: 56,
-      marginLeft: 68,
-    },
-    settings: {
-      marginLeft: 13,
-    },
-  },
-  wrapperBar: {
-    h: 4,
-    y: 76,
-    w: 55,
-    get color() {
-      return 0x6ee445
-    },
-    radius: 4,
-  },
-  focused: {
-    textColor: 0xffff0000,
-  },
-  unfocused: {
-    textColor: 0xffcccccc,
   },
 }

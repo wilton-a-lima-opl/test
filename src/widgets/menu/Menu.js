@@ -1,49 +1,45 @@
 // eslint-disable no-fallthrough //
 import { Lightning, Router } from '@lightningjs/sdk'
+
 import ButtonBase from '../../components/buttons/ButtonBase'
+import menuTheme from './MenuTheme'
 
 export default class Menu extends Lightning.Component {
   static _template() {
     return {
       ...super._template(),
-      w: 1920,
-      h: 1080,
+      w: menuTheme.w,
+      h: menuTheme.h,
       ButtonFirstPage: {
         type: ButtonBase,
-        w: 600,
-        h: 100,
-        y: 110,
-        x: 300,
-        borderRadius: 8,
-        focusColor: 0xffc2cbd1,
-        unfocusColor: 0xff282828,
-        focusTextColor: 0xff282828,
-        unfocusTextColor: 0xfff2f2f2,
+        w: menuTheme.button.w,
+        h: menuTheme.button.h,
+        y: menuTheme.button.y,
+        x: menuTheme.button.xFirst,
+        borderRadius: menuTheme.button.borderRadius,
+        focusColor: menuTheme.button.focusColor,
+        unfocusColor: menuTheme.button.unfocusColor,
+        focusTextColor: menuTheme.button.focusTextColor,
+        unfocusTextColor: menuTheme.button.unfocusTextColor,
         buttonBaseText: {
-          fontSize: 50,
-          text: 'Page 1',
-        },
-        signals: {
-          click: 'onOptionSelected',
+          fontSize: menuTheme.button.buttonBaseText.fontSize,
+          text: menuTheme.button.buttonBaseText.textFirstButton,
         },
       },
       ButtonSecondPage: {
         type: ButtonBase,
-        w: 600,
-        h: 100,
-        y: 110,
-        x: 950,
-        borderRadius: 8,
-        focusColor: 0xffc2cbd1,
-        unfocusColor: 0xff282828,
-        focusTextColor: 0xff282828,
-        unfocusTextColor: 0xfff2f2f2,
+        w: menuTheme.button.w,
+        h: menuTheme.button.h,
+        y: menuTheme.button.y,
+        x: menuTheme.button.xSecond,
+        borderRadius: menuTheme.button.borderRadius,
+        focusColor: menuTheme.button.focusColor,
+        unfocusColor: menuTheme.button.unfocusColor,
+        focusTextColor: menuTheme.button.focusTextColor,
+        unfocusTextColor: menuTheme.button.unfocusTextColor,
         buttonBaseText: {
-          fontSize: 50,
-          text: 'Page 2',
-        },
-        signals: {
-          click: 'onOptionSelected',
+          fontSize: menuTheme.button.buttonBaseText.fontSize,
+          text: menuTheme.button.buttonBaseText.textSecondButton,
         },
       },
     }

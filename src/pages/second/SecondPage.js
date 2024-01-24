@@ -1,29 +1,29 @@
 import { Lightning, Router } from '@lightningjs/sdk'
-import GeneralProvider from '../../providers/GeneralProvider'
-import { Grid, List } from '@lightningjs/ui'
+
 import { CardBase } from '../../components'
-import RailBase from '../../components/rails/RailBase'
+import GeneralProvider from '../../providers/GeneralProvider'
+import { Grid } from '@lightningjs/ui'
+import secondPageTheme from './SecondPageTheme'
 
 export default class SecondPage extends Lightning.Component {
   static _template() {
     return {
       rect: true,
       color: 0xff1c1b1e,
-      w: 1920,
-      h: 1080,
+      w: secondPageTheme.w,
+      h: secondPageTheme.h,
       ContentGrid: {
         type: Grid,
         direction: 'column',
-        columns: 7,
-        h: 800,
-        w: 1800,
-        x: 64,
-        y: 280,
-        scroll: 2,
-        crossSpacing: 18,
-        mainSpacing: 18,
+        columns: secondPageTheme.contentGrid.columns,
+        h: secondPageTheme.contentGrid.h,
+        w: secondPageTheme.contentGrid.w,
+        x: secondPageTheme.contentGrid.x,
+        y: secondPageTheme.contentGrid.y,
+        crossSpacing: secondPageTheme.contentGrid.crossSpacing,
+        mainSpacing: secondPageTheme.contentGrid.mainSpacing,
         enableRequests: true,
-        requestThreshold: 2,
+        requestThreshold: secondPageTheme.contentGrid.requestThreshold,
         clipping: true,
       },
     }
@@ -46,51 +46,36 @@ export default class SecondPage extends Lightning.Component {
     return true
   }
 
-  async _firstActive() {
+  _enable() {
+    if (this._contentGridTag.hasItems) {
+      this._contentGridTag.clear()
+    }
+
     this._grabData()
   }
 
   _setup() {
-    this._defaultRailProperties = {
-      w: 1920,
-      h: 400,
-    }
     this._setState('ContentGrid')
   }
 
-  _enable() {
-    if (this.refresh) {
-      this.refresh = false
-
-      if (this._contentListsTag.hasItems) {
-        this._contentListsTag.clear()
-      }
-
-      this._grabData()
+  async _grabData() {
+    try {
+      this.widgets.loading.open('fullscreen')
+      const response = await this._generalProvider.getPhotosUrl()
+      this._getContent(response)
+    } catch (error) {
+      console.error('Erro ao obter os dados:', error)
+    } finally {
+      this.widgets.loading.close()
     }
   }
 
-  async _grabData() {
-    this.widgets.loading.open('fullscreen')
-
-    this._generalProvider.getPhotosUrl().then((response) => {
-      this._getContent(response)
-
-      this.widgets.loading.close()
-    })
-  }
-
   _getContent(data) {
-    const contentsSelecteds = data.slice(0, 20)
-
     if (this.active && data) {
-      this.list = []
-      const images = contentsSelecteds
-      images.forEach((img) => {
-        this.list.push(img)
-      })
+      const contentsSelecteds = data.slice(0, 20)
 
-      this._cards = this.list.map((it) => this._createCardGrid(it)).filter((it) => it)
+      this.list = contentsSelecteds.slice()
+      this._cards = this.list.map((it) => this._createCardGrid(it)).filter(Boolean)
       this._contentGridTag.add(this._cards)
     }
   }
@@ -98,10 +83,11 @@ export default class SecondPage extends Lightning.Component {
   _createCardGrid(item) {
     return {
       type: CardBase,
-      w: 230,
-      h: 230,
+      w: secondPageTheme.cardBase.w,
+      h: secondPageTheme.cardBase.h,
       showBorder: true,
       src: item.thumbnailUrl,
+      showLegend: false,
     }
   }
 }

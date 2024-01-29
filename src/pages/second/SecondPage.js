@@ -1,7 +1,7 @@
 import { Lightning, Router } from '@lightningjs/sdk'
 
 import { CardBase } from '../../components'
-import GeneralProvider from '../../providers/GeneralProvider'
+//import GeneralProvider from '../../providers/GeneralProvider'
 import { Grid } from '@lightningjs/ui'
 import secondPageTheme from './SecondPageTheme'
 
@@ -29,53 +29,37 @@ export default class SecondPage extends Lightning.Component {
     }
   }
 
-  _init() {
-    this._generalProvider = new GeneralProvider()
-  }
-
   _build() {
+    //this._generalProvider = new GeneralProvider()
     this._contentGridTag = this.tag('ContentGrid')
   }
 
-  _getFocused() {
-    return this.tag('ContentGrid')
-  }
-
-  _handleUp() {
-    Router.focusWidget('menu')
-    return true
-  }
-
   _enable() {
-    if (this._contentGridTag.hasItems) {
-      this._contentGridTag.clear()
-    }
-
-    this._grabData()
+    // if (this._contentGridTag.hasItems) {
+    //   this._contentGridTag.clear()
+    // }
+    //this._grabData()
   }
 
   _setup() {
     this._setState('ContentGrid')
   }
 
-  async _grabData() {
-    try {
-      this.widgets.loading.open('fullscreen')
-      const response = await this._generalProvider.getPhotosUrl()
-      this._getContent(response)
-    } catch (error) {
-      console.error('Erro ao obter os dados:', error)
-    } finally {
-      this.widgets.loading.close()
-    }
-  }
+  // async _grabData() {
+  //   try {
+  //     this.widgets.loading.open('fullscreen')
+  //     // const response = await GeneralProvider.getPhotosUrl()
+  //     // this._getContent(response)
+  //   } catch (error) {
+  //     console.error('Erro ao obter os dados:', error)
+  //   }
+  //   this.widgets.loading.close()
+  // }
 
   _getContent(data) {
-    if (this.active && data) {
+    if (!this._contentGridTag.hasItems && data) {
       const contentsSelecteds = data.slice(0, 20)
-
-      this.list = contentsSelecteds.slice()
-      this._cards = this.list.map((it) => this._createCardGrid(it)).filter(Boolean)
+      this._cards = contentsSelecteds.map((it) => this._createCardGrid(it)).filter(Boolean)
       this._contentGridTag.add(this._cards)
     }
   }
@@ -88,6 +72,20 @@ export default class SecondPage extends Lightning.Component {
       showBorder: true,
       src: item.thumbnailUrl,
       showLegend: false,
+      borderWidth: 15,
     }
+  }
+
+  _getFocused() {
+    return this.tag('ContentGrid')
+  }
+
+  _handleUp() {
+    Router.focusWidget('menu')
+    return true
+  }
+
+  set content(v) {
+    this._getContent(v)
   }
 }

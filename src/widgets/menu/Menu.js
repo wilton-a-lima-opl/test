@@ -58,8 +58,10 @@ export default class Menu extends Lightning.Component {
   _handleEnter() {
     if (this._buttonFirstPageTag.hasFocus()) {
       Router.navigate('first')
+      Router.focusPage()
     } else if (this._buttonSecondPageTag.hasFocus()) {
       Router.navigate('second')
+      Router.focusPage()
     }
   }
 
@@ -73,6 +75,10 @@ export default class Menu extends Lightning.Component {
         _handleRight() {
           this._setState('ButtonSecondPage')
         }
+
+        _handleDown() {
+          Router.focusPage()
+        }
       },
 
       class ButtonSecondPage extends this {
@@ -82,6 +88,10 @@ export default class Menu extends Lightning.Component {
 
         _handleLeft() {
           this._setState('ButtonFirstPage')
+        }
+
+        _handleDown() {
+          Router.focusPage()
         }
       },
     ]

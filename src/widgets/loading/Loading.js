@@ -2,7 +2,7 @@ import Lightning from '@lightningjs/sdk/src/Lightning'
 import { Router } from '@lightningjs/sdk'
 import loadingTheme from './LoadingTheme'
 
-export default class extends Lightning.Component {
+export default class Loading extends Lightning.Component {
   static _template() {
     return {
       Bg: {

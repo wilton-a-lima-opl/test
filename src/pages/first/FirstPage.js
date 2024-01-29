@@ -1,7 +1,6 @@
 import { Lightning, Router } from '@lightningjs/sdk'
 
 import { CardBase } from '../../components'
-import GeneralProvider from '../../providers/GeneralProvider'
 import { List } from '@lightningjs/ui'
 import RailBase from '../../components/rails/RailBase'
 import firstPageTheme from './FirstPageTheme'
@@ -26,29 +25,15 @@ export default class FirstPage extends Lightning.Component {
     }
   }
 
-  _init() {
-    this._generalProvider = new GeneralProvider()
-  }
-
   _build() {
     this._contentListsTag = this.tag('ContentList')
   }
 
-  _getFocused() {
-    return this.tag('ContentList')
-  }
-
-  _handleUp() {
-    Router.focusWidget('menu')
-    return true
-  }
-
   _enable() {
-    if (this._contentListsTag.hasItems) {
-      this._contentListsTag.clear()
-    }
-
-    this._grabData()
+    // if (this._contentListsTag.hasItems) {
+    //   this._contentListsTag.clear()
+    // }
+    // this._getContent(data)
   }
 
   _setup() {
@@ -59,37 +44,47 @@ export default class FirstPage extends Lightning.Component {
     this._setState('ContentList')
   }
 
-  async _grabData() {
-    try {
-      this.widgets.loading.open('fullscreen')
-      const response = await this._generalProvider.getPhotosUrl()
-      this._getContent(response)
-    } catch (error) {
-      console.error('Erro ao obter os dados:', error)
-    } finally {
-      this.widgets.loading.close()
-    }
-  }
+  // async _grabData() {
+  //   try {
+  //     this.widgets.loading.open('fullscreen')
+  //     const response = await this._generalProvider.getPhotosUrl()
+  //     this._getContent(response)
+  //   } catch (error) {
+  //     console.error('Erro ao obter os dados:', error)
+  //   }
+  //   this.widgets.loading.close()
+  // }
+
+  // _grabData() {
+  // this.widgets.loading.open('fullscreen')
+
+  // GeneralProvider.getPhotosUrl()
+  //   .then((response) => {
+  //     this._getContent(response)
+  //   })
+  //   .catch((error) => {
+  //     console.error('Erro ao obter os dados:', error)
+  //   })
+  // this.widgets.loading.close()
+  //   const data = this.data
+  //   this._getContent(data)
+  // }
 
   _getContent(data) {
-    if (!this.active || !data) {
-      return
+    if (!this._contentListsTag.hasItems && data) {
+      const railSize = 20
+      this.list = []
+
+      for (let i = 0; i < data.length; i += railSize) {
+        this.list.push(data.slice(i, i + railSize))
+      }
+
+      const listOfLists = this.list.slice(0, 3)
+
+      this._cards = listOfLists.map((list) => list.map((it) => this._createCardList(it)))
+
+      this._processData(this._cards)
     }
-
-    const railSize = 20
-    this.list = []
-
-    for (let i = 0; i < data.length; i += railSize) {
-      this.list.push(data.slice(i, i + railSize))
-    }
-
-    const listOfLists = this.list.slice(0, 3)
-
-    this._cards = listOfLists.map((list) =>
-      list.map((it) => this._createCardList(it)).filter(Boolean),
-    )
-
-    this._processData(this._cards)
   }
 
   _processData(listsCards) {
@@ -99,10 +94,6 @@ export default class FirstPage extends Lightning.Component {
 
     if (arrayOfRails.length) {
       this._contentListsTag.add(arrayOfRails)
-    }
-
-    if (this.active) {
-      Router.focusPage()
     }
   }
 
@@ -130,5 +121,19 @@ export default class FirstPage extends Lightning.Component {
       title: item.title,
       src: item.thumbnailUrl,
     }
+  }
+
+  _getFocused() {
+    return this.tag('ContentList')
+  }
+
+  _handleUp() {
+    Router.focusWidget('menu')
+    return true
+  }
+
+  set content(v) {
+    this._item = v.filter(Boolean)
+    this._getContent(this._item)
   }
 }

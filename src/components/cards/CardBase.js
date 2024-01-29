@@ -161,7 +161,11 @@ export default class CardBase extends Lightning.Component {
   }
 
   get borderWidth() {
-    return cardBaseTheme.defaultBoderWidth
+    return this._borderWidth || cardBaseTheme.defaultBoderWidth
+  }
+
+  set borderWidth(v) {
+    this._borderWidth = v
   }
 
   get borderRadius() {

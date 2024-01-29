@@ -9,6 +9,17 @@
   "platformSettings": {
     "path": "./static",
     "log": true,
-    "showVersion": true
+    "router": {
+      "autoRestoreRemote": false,
+      "backtrack": true,
+      "destroyOnHistoryBack": true,
+      "gcOnUnload": false,
+      "lazyCreate": false,
+      "lazyDestroy": false,
+      "reuseInstance": true,
+      "storeSameHash": true,
+      "updateHash": true
+    },
+    "showVersion": false
   }
 }

@@ -19,6 +19,19 @@ export default class ButtonBase extends Lightning.Component {
     }
   }
 
+  _init() {
+    this._buttonBaseTextTag.on('txLoaded', (txt) => {
+      this.patch({
+        Wrapper: {
+          ButtonBaseText: {
+            x: (this.w - txt._source.renderInfo.w) / 2,
+            y: (this.h - txt._source.renderInfo.h) / 2,
+          },
+        },
+      })
+    })
+  }
+
   _build() {
     this._buttonBaseTextTag = this.tag('ButtonBaseText')
   }
@@ -39,19 +52,6 @@ export default class ButtonBase extends Lightning.Component {
           },
         },
       },
-    })
-  }
-
-  _init() {
-    this._buttonBaseTextTag.on('txLoaded', (txt) => {
-      this.patch({
-        Wrapper: {
-          ButtonBaseText: {
-            x: (this.w - txt._source.renderInfo.w) / 2,
-            y: (this.h - txt._source.renderInfo.h) / 2,
-          },
-        },
-      })
     })
   }
 
